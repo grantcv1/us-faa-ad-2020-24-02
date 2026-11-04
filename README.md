@@ -34,3 +34,13 @@ This is an experiment. [The landing page](index.html) reports what fit and what 
 ## Fonts
 
 The stylesheet embeds Liberation Serif and Liberation Sans, under the [SIL Open Font License](https://openfontlicense.org/).
+
+## License
+
+The Akoma Ntoso markup, stylesheet rules, scripts and landing page are under the MIT License in `LICENSE`. That license does not cover the items below, which keep their own terms.
+
+- **Text:** 85 FR 74560, a work of the U.S. Government. Believed to be in the public domain. Details are under Sources above.
+- **Images:** None.
+- **Fonts:** Liberation Serif and Liberation Sans, under the licenses in `FONT-LICENSES.md`.
+
+This is an unofficial copy, not an official version of the text.
