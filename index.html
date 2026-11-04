@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAA AD 2020-24-02 in Akoma Ntoso and LegalRuleML</title>
+<meta name="description" content="The FAA airworthiness directive that returned the Boeing 737 MAX to service, in Akoma Ntoso XML with LegalRuleML rules, with a report on what fit and what didn't.">
+<style>
+:root { --ground: #2a221b; --panel: #efe6d3; --ink: #2e1c10; --muted: #5c4c3a; --accent: #7a3b16; --blue: #0472C1; --rule: #c9b998; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 18px/1.6 Georgia, "Times New Roman", serif; }
+main { max-width: 760px; margin: 48px auto; padding: 40px clamp(20px, 5vw, 48px); background: var(--panel); }
+h1 { font-size: clamp(30px, 6vw, 42px); line-height: 1.15; margin: 0 0 16px; font-weight: 400; }
+h2 { font-size: 25px; line-height: 1.25; margin: 40px 0 8px; font-weight: 400; }
+h3 { font-size: 19px; margin: 24px 0 6px; font-weight: 700; }
+p, ul, ol { margin: 0 0 14px; }
+li { margin-bottom: 6px; }
+a { color: var(--accent); }
+code { font: .86em ui-monospace, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+pre { margin: 0 0 14px; padding: 12px 14px; background: #e4d9c1; overflow-x: auto; }
+pre code { font-size: 14px; line-height: 1.5; overflow-wrap: normal; }
+.scroll { overflow-x: auto; margin: 0 0 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 16px; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); }
+th { font-weight: 700; }
+.view { display: inline-block; margin: 12px 0 8px; padding: 12px 20px; background: var(--blue); color: #fff; text-decoration: none; border-radius: 4px; }
+.view:hover, .view:focus-visible { background: #035fa2; }
+footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>FAA Airworthiness Directive 2020-24-02 in Akoma Ntoso and LegalRuleML</h1>
+  <p>The FAA final rule of November 20, 2020, published at 85 FR 74560, that set the conditions for returning the Boeing 737 MAX to service. It requires new flight control software, flight manual changes, new display software, a wiring change, a sensor test and a readiness flight on each airplane.</p>
+  <a class="view" href="faa-ad-2020-24-02.xml">View the directive</a>
+
+  <p>This is the second experiment in the archive, after the <a href="https://grantcv1.github.io/us-wright-brothers-contract-1908/">Wright Brothers&rsquo; contract</a>. That one tested a private agreement. This one tests a certification document: public law, but written as technical instructions for airplanes. This page reports how Claude modeled it, what it had to add, and what went wrong. It covers one directive, so it&rsquo;s a starting list and not a survey.</p>
+
+  <h2>What was done</h2>
+  <ul>
+    <li><strong>The text:</strong> Claude built the markup by program from the Government Publishing Office&rsquo;s plain-text version, without retyping it, and marked it up in Akoma Ntoso 2.0 (AKN 3.1).</li>
+    <li><strong>The amendment:</strong> The rule amends 14 CFR 39.13, so the directive sits inside <code>mod</code> and <code>quotedStructure</code>, with the removal of the old directive and the addition of the new one recorded in <code>activeModifications</code>.</li>
+    <li><strong>The rules:</strong> Claude wrote 25 LegalRuleML statements, 16 prescriptive and 9 constitutive, in an attachment, inside <code>&lt;foreign&gt;</code>. Each points to the <code>eId</code> of its paragraph.</li>
+    <li><strong>The appearance:</strong> A stylesheet renders the XML after the Federal Register page, with its cover, headings and page numbers. The Register prints three columns. This is set in one, because columns don&rsquo;t work across a scrolling page this long.</li>
+  </ul>
+  <p>The XML validates against the Akoma Ntoso 2.0 schema, and all 253 <code>eId</code>s are unique. A word-by-word comparison with the source found no lost text. The LegalRuleML was not validated.</p>
+<pre><code>&lt;act name="finalRule"&gt;
+  &lt;meta&gt;...&lt;/meta&gt;
+  &lt;coverPage&gt;...&lt;/coverPage&gt;
+  &lt;preface&gt;agency, docket, title&lt;/preface&gt;
+  &lt;preamble&gt;summary, dates, 88 comments and the FAA's responses&lt;/preamble&gt;
+  &lt;body&gt;
+    &lt;part&gt;...&lt;section&gt;...
+      &lt;mod&gt;&lt;quotedStructure&gt;
+        &lt;hcontainer name="airworthinessDirective"&gt;paragraphs (a) to (r)&lt;/hcontainer&gt;
+      &lt;/quotedStructure&gt;&lt;/mod&gt;
+    &lt;/section&gt;&lt;/part&gt;
+  &lt;/body&gt;
+  &lt;conclusions&gt;...&lt;/conclusions&gt;
+  &lt;attachments&gt;the LegalRuleML, in foreign&lt;/attachments&gt;
+&lt;/act&gt;</code></pre>
+
+  <h2>What fit without strain</h2>
+  <div class="scroll"><table>
+    <thead><tr><th scope="col">Feature</th><th scope="col">Markup</th></tr></thead>
+    <tbody>
+      <tr><td>Federal Register cover</td><td><code>coverPage</code></td></tr>
+      <tr><td>Docket and directive numbers</td><td><code>docketNumber</code>, <code>docNumber</code></td></tr>
+      <tr><td>Publication</td><td><code>publication</code>, with 85 FR 74560</td></tr>
+      <tr><td>Page numbers</td><td><code>eop</code> with <code>number</code></td></tr>
+      <tr><td>Footnotes</td><td><code>authorialNote</code>, 14 of them</td></tr>
+      <tr><td>Notes to paragraphs</td><td><code>noteSection</code></td></tr>
+      <tr><td>Paragraphs (a) to (r), with their levels</td><td><code>paragraph</code>, <code>subparagraph</code>, <code>point</code></td></tr>
+      <tr><td>Removing one directive and adding another</td><td><code>mod</code>, <code>quotedStructure</code>, <code>textualMod</code></td></tr>
+      <tr><td>List of subjects</td><td><code>classification</code>, <code>keyword</code></td></tr>
+      <tr><td>Cost table</td><td><code>table</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>Amendment markup was the strongest part. The directive is a legal unit with its own identifiers, even though it&rsquo;s quoted inside an amending instruction.</p>
+
+  <h2>The extensions</h2>
+  <div class="scroll"><table>
+    <thead><tr><th scope="col">Feature</th><th scope="col">Generic markup</th><th scope="col">Why it was needed</th></tr></thead>
+    <tbody>
+      <tr><td>Document type</td><td><code>act name="finalRule"</code></td><td>There&rsquo;s no type for an agency rule. It isn&rsquo;t an act, but <code>act</code> is the closest with a body and a preamble.</td></tr>
+      <tr><td>The directive</td><td><code>hcontainer name="airworthinessDirective"</code></td><td>There&rsquo;s no specific element, unlike <code>schedule</code>.</td></tr>
+      <tr><td>Preamble sections</td><td><code>container name="summary"</code>, and five others</td><td>The standard FR headings have no elements.</td></tr>
+      <tr><td>Figures</td><td><code>block name="figure"</code>, <code>inline name="graphic"</code>, <code>inline name="editorial"</code></td><td><code>img</code> needs an image. Nothing marks a figure that exists but isn&rsquo;t reproduced.</td></tr>
+      <tr><td>Rights and duties</td><td><code>foreign</code> with LegalRuleML</td><td>Akoma Ntoso records the text, not who must do what.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Where Akoma Ntoso stretched</h2>
+  <ul>
+    <li><strong>The preamble does the heavy lifting.</strong> About 92 percent of the text is preamble, and it has four levels of headings. Hierarchical elements aren&rsquo;t allowed there, and <code>container</code> can&rsquo;t have a heading, so 112 <code>blockContainer</code> elements carry the structure. It works, but the structure isn&rsquo;t addressable the way sections are.</li>
+    <li><strong>Comments and responses have no structure.</strong> There are 88 comment summaries and 81 FAA responses. They are told apart only by <code>class</code>. <code>question</code> and <code>answer</code> exist, but they belong to the hierarchy and don&rsquo;t fit a preamble. Commenters like BALPA aren&rsquo;t marked up.</li>
+    <li><strong>Operative text in images.</strong> See Issues.</li>
+    <li><strong>Incorporation by reference has no meaning in the markup.</strong> Paragraph (r) makes four Boeing bulletins legally part of the rule, and <code>ref</code> only shows a citation. This is the same gap as the contract&rsquo;s attached specification.</li>
+    <li><strong>Identifiers with no home.</strong> The RIN, the product identifier and the amendment number have no elements, and <code>FRBRnumber</code> holds only one value.</li>
+    <li><strong>Citations.</strong> <code>ref</code> needs a URI, and the CFR has no agreed Akoma Ntoso naming, so the 14 CFR links use an invented pattern.</li>
+    <li><strong>Life cycle.</strong> <code>eventRef</code> records publication. The rescission of the Emergency Order, which the preamble calls contemporaneous, has no natural place.</li>
+  </ul>
+  <h3>Repeating the contract&rsquo;s findings</h3>
+  <ul>
+    <li><strong>Quantities:</strong> The costs and the 5.5-degree threshold still have no units, so they&rsquo;re left as plain text.</li>
+    <li><strong>Dates:</strong> A date still has no type. Issued, filed, published and effective are told apart only by context.</li>
+    <li><strong><code>signature</code></strong> still can&rsquo;t carry <code>as</code>.</li>
+  </ul>
+
+  <h2>LegalRuleML</h2>
+  <h3>What it added</h3>
+  <ul>
+    <li><strong>Fit:</strong> Paragraphs (g) to (m) read almost as rules already, more so than the contract.</li>
+    <li><strong>Exceptions:</strong> &ldquo;Unless already done&rdquo; and the credit in paragraph (o) work well as constitutive statements.</li>
+  </ul>
+  <h3>Where it was awkward</h3>
+  <ul>
+    <li><strong>No stated bearer.</strong> &ldquo;Comply with this AD&rdquo; and &ldquo;install&rdquo; are imperatives with no subject. A <code>Bearer</code> is needed, so &ldquo;operator&rdquo; is an inference. The rule doesn&rsquo;t say it, and its <code>Agent</code> has no matching Akoma Ntoso reference.</li>
+    <li><strong>Deadlines are events.</strong> &ldquo;Before further flight&rdquo; isn&rsquo;t a date, and &ldquo;before any other flight&rdquo; is deliberately different from it, as the preamble explains. Both are plain data here, not temporal parameters.</li>
+    <li><strong>&ldquo;Only if.&rdquo;</strong> Paragraph (i) needs a permission and a prohibition to say one thing.</li>
+    <li><strong>Negation.</strong> Conditions such as &ldquo;not labeled RC&rdquo; are separate predicates, so nothing links them to their opposites.</li>
+    <li><strong>Authority.</strong> The Manager&rsquo;s authority to approve AMOCs is a power, and it&rsquo;s modeled as a permission.</li>
+    <li><strong>Open references.</strong> &ldquo;Later-approved software versions&rdquo; refers to documents that didn&rsquo;t exist when the rule was issued.</li>
+    <li><strong>Actions out of reach.</strong> Most obligations are &ldquo;do the RC steps&rdquo; of a bulletin that isn&rsquo;t public, so the rules stop at the document boundary.</li>
+  </ul>
+
+  <h2>Issues</h2>
+  <ul>
+    <li><strong>The figures aren&rsquo;t transcribed.</strong> This is the biggest gap. Ten figures, on 11 images, contain the crew procedures and MEL provisions, which are binding. The source&rsquo;s text version omits them. Each has a placeholder with its page number. Transcribing safety procedures from page images risks errors, and an image can&rsquo;t be searched, cited or modeled in rules. Paragraph (h) can only say that the procedures must be added, not what they are.</li>
+    <li><strong>Text source:</strong> The plain-text version loses italics and most of the print layout. Bullets were recovered from indentation.</li>
+    <li><strong>Printers&rsquo; marks:</strong> The <code>BILLING CODE</code> lines and the <code>0</code> markers before instructions were left out.</li>
+    <li><strong>Rules are a reading:</strong> Claude wrote them, and no one with aviation or legal training has reviewed them. They don&rsquo;t cover paragraphs (a), (d), (e), (q) or the detail of (h).</li>
+    <li><strong>No schema check on the rules:</strong> The LegalRuleML schema couldn&rsquo;t be loaded in the environment Claude worked in. The structure follows the Wright contract&rsquo;s, which was checked by hand.</li>
+    <li><strong>Placeholder vocabulary:</strong> The <code>adv:</code> predicates are illustrative.</li>
+    <li><strong>Links:</strong> Browsers don&rsquo;t follow Akoma Ntoso <code>ref</code> and <code>a</code> elements in XML styled by CSS alone, so the document&rsquo;s links work as data, not as clickable links.</li>
+  </ul>
+
+  <h2>Questions for an extension</h2>
+  <ol>
+    <li>Should there be a document type for agency rules?</li>
+    <li>Should the preamble allow addressable, numbered sections, or should <code>container</code> have a heading?</li>
+    <li>Should there be a model for public comments and an agency&rsquo;s responses?</li>
+    <li>How should incorporation by reference be expressed, here and in contracts?</li>
+    <li>How should a binding figure be marked when its content isn&rsquo;t available as text?</li>
+    <li>Should LegalRuleML have a defined binding to Akoma Ntoso, including for agents the text only implies?</li>
+  </ol>
+
+  <h2>Files</h2>
+  <ul>
+    <li><a href="faa-ad-2020-24-02.xml">faa-ad-2020-24-02.xml</a>: the Akoma Ntoso document, with the rules</li>
+    <li><a href="faa-ad-2020-24-02.css">faa-ad-2020-24-02.css</a>: the stylesheet that renders it</li>
+    <li><a href="README.md">README.md</a>: sources and credits</li>
+  </ul>
+  <footer>Generated by Claude for <a href="https://grantvergottini.com/">Grant Vergottini</a>. Not an official text. The official version is <a href="https://www.govinfo.gov/content/pkg/FR-2020-11-20/pdf/2020-25844.pdf">the Federal Register</a>.</footer>
+</main>
+</body>
+</html>
